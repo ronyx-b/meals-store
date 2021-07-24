@@ -1,0 +1,35 @@
+<div class="modal fade" id="modal_{{package.code}}" tabindex="-1" aria-labelledby="modal_{{package.code}}_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_{{package.code}}_label">{{package.name}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          <img src="/public/meals/{{package.image_url}}" alt="{{package.name}}" class="meal-img">
+        </div>
+        <div style="text-align: center;">
+          <h2>{{package.name}}</h2>{{package.description}}<br />{{#if package.price}}from {{currency package.price}}/meal{{else}}<i>Sold Out</i>{{/if}}
+        </div>
+        {{#if customer}}
+        <div class="row" style="text-align: center;">
+          <form name="shop-{{package.code}}" id="shop-{{package.code}}" action="/add-to-cart" method="post" enctype="multipart/form-data" class="form-inline mx-auto">
+            <input type="hidden" name="code" id="{{package.code}}-code" value="{{package.code}}">
+            <input type="hidden" name="name" id="{{package.code}}-name" value="{{package.name}}">
+            <input type="hidden" name="price" id="{{package.code}}-price" value="{{package.price}}">
+            {{#if package.qty}}{{package.qty}} In cart... Add/remove:&nbsp;{{/if}}
+            <input type="number" name="qty" id="{{package.code}}-qty"  class="form-control" style="width: 70px;" value="1">
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+          </form>
+        </div>
+        {{/if}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

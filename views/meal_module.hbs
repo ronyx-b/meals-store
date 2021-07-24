@@ -1,0 +1,135 @@
+<div class="container-md border border-secondary rounded p-3 my-5">
+  {{#if page.add_meal}}
+  <div class="text-center"><h2>Add New Meal</h2></div>
+  <form name="add_meal" id="add_meal" action="/add_meal" method="post" enctype="multipart/form-data">
+  {{/if}}
+  {{#if page.edit_meal}}
+  <div class="text-center"><h2>Edit Meal</h2></div>
+  <form name="edit_meal" id="edit_meal" action="/edit_meal" method="post" enctype="multipart/form-data">
+  {{/if}}
+    <div class="form-group row">
+      <label for="code" class="col-sm-2 col-form-label">Code</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="code" id="code"  value="{{data.formData.code}}" readonly>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="name" id="name" value="{{data.formData.name}}" tabindex="1">
+        {{#if data.errors.name}}
+        <div class="mt-3" style="color:red"> 
+          <strong>Warning:</strong> {{data.errors.name}}
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="description" class="col-sm-2 col-form-label">Description</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="description" id="description" value="{{data.formData.description}}" tabindex="2">
+        {{#if data.errors.description}}
+        <div class="mt-3" style="color:red"> 
+          <strong>Warning:</strong> {{data.errors.description}}
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="price" class="col-sm-2 col-form-label">Price</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="price" id="price" value="{{data.formData.price}}" tabindex="3">
+        {{#if data.errors.price}}
+        <div class="mt-3" style="color:red"> 
+          <strong>Warning:</strong> {{data.errors.price}}
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="category" class="col-sm-2 col-form-label">Category</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="category" id="category" value="{{data.formData.category}}" tabindex="4" list="categories">
+        <datalist id="categories">
+          <option value="Keto"></option>
+          <option value="Vegan"></option>
+          <option value="Celiac"></option>
+          <option value="Value"></option>
+          <option value="Soup"></option>
+        </datalist>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="num_meals" class="col-sm-2 col-form-label">Num. of Meals</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="num_meals" id="num_meals" value="{{data.formData.num_meals}}" tabindex="5">
+        {{#if data.errors.num_meals}}
+        <div class="mt-3" style="color:red"> 
+          <strong>Warning:</strong> {{data.errors.num_meals}}
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="is_top" class="col-sm-2 col-form-label">Is top</label>
+      <div class="col-sm-10">
+        <select class="form-control" name="is_top" id="is_top" tabindex="6">
+          <option value="false"{{#unless data.formData.is_top}} selected{{/unless}}>Is not top meal (false)</option>
+          <option value="true"{{#if data.formData.is_top}} selected{{/if}}>Is top meal (true)</option>
+        </select>
+      </div>
+    </div>
+    {{#if page.edit_meal}}
+    <div class="form-group row">
+      <label for="current_image_url" class="col-sm-2 col-form-label">Current Image</label>
+      <div class="col-sm-10">
+        <input type="hidden" name="current_image_url" id="current_image_url" value="{{data.formData.current_image_url}}">
+        <a href="#" data-toggle="modal" data-target="#modal_image">{{data.formData.current_image_url}}</a>
+        <!-- Begin Modal -->
+        <div class="modal fade" id="modal_image" tabindex="-1" aria-labelledby="modal_image_label" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal_image_label">Current Meal Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div style="width: fit-content; margin-left: auto; margin-right: auto;">
+                  <img src="/public/meals/{{data.formData.current_image_url}}" alt="{{data.formData.name}}" width="200">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Modal -->
+      </div>
+    </div>   
+    {{/if}}
+    <div class="form-group row">
+      <label for="image_url" class="col-sm-2 col-form-label">{{#if page.edit_meal}}Change {{/if}}Image File</label>
+      <div class="col-sm-10">
+        <input type="file" class="form-control-file {{#if data.errors.image_url}} border-danger{{/if}}" name="image_url" id="input_id" value="{{data.formData.image_url}}" tabindex="7">
+        {{#if data.errors.image_url}}
+        <div class="mt-3" style="color:red"> 
+          <strong>Warning:</strong> {{data.errors.image_url}}
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    <div style="width:fit-content; margin-left:auto; margin-right:auto">
+      {{#if page.add_meal}}
+      <input type="submit" class="btn btn-primary" style="width: 150px;" value="Add Meal" tabindex="8">
+      <input type="reset" class="btn btn-primary" style="width: 150px;" value="Reset" tabindex="9">
+      {{/if}}
+      {{#if page.edit_meal}}
+      <input type="submit" class="btn btn-primary" style="width: 150px;" value="Save Changes" tabindex="8">
+      {{/if}}
+      <input type="button" class="btn btn-primary" style="width: 150px;" value="Cancel" tabindex="10" onclick="window.location.assign('/backoffice')">
+    </div>
+  </form>
+</div>

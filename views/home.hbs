@@ -1,0 +1,36 @@
+<div class="cards-container">
+  <div class="square">
+    <img src="/public/pick.jpg" alt="Pick" width="200">
+    <h2>Pick</h2>100+ menu of all-natural dishes.
+  </div>
+  <div class="square">
+    <img src="/public/heat.jpg" alt="Heat" width="200">
+    <h2>Heat</h2>Cooked and delivered.
+  </div>
+  <div class="square">
+    <img src="/public/eat.jpg" alt="Eat" width="200">
+    <h2>Eat</h2>Delicious and nutritious.
+  </div>
+  <div class="square">
+    <img src="/public/repeat.jpg" alt="Repeat" width="200">
+    <h2>Repeat</h2>Skip a week or cancel any time.
+  </div>
+</div>
+<div id="mid">
+  <div class="center-text">
+    <h1>Eat towards your goals</h1>
+    <h3>Lose weight, gain muscle, go Vegan or eat Keto - we've got you covered</h3>
+  </div>
+</div>
+<div style="text-align: center; margin-top:20px"><h1>Our chefs are making these right now! </h1></div>
+<div class="cards-container">
+  {{#each data}}
+  <div class="square">
+    <a data-toggle="modal" href="#modal_{{code}}"><img src="/public/meals/{{image_url}}" alt="{{name}}" class="meal-img"></a>
+    <h2>{{name}}</h2>{{description}}<br />{{#if price}}from {{currency price}}/meal{{else}}<i>Sold Out</i>{{/if}}
+  </div>
+  <!-- Begin Modal -->
+  {{> package-modal package=this customer=../customer}}
+  <!-- End Modal -->
+  {{/each}}
+</div>

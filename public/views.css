@@ -1,0 +1,149 @@
+body {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 150px; /* leave space for the absolute-positioned footer */
+}
+
+footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  height: 150px;
+  text-align: center;
+  color: black;
+  background-color: #d0d0d0;
+}
+
+.center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+}
+
+.cards-container {
+  max-width: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.square {
+  width: 200px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.meal-img {
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.meal-img-cart {
+  width: 70px;
+}
+
+.bo-img-wrapper {
+  width: fit-content;
+} 
+
+.max-width-small {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.collapsable {
+  /* transition: all 1s ease-in-out; */
+  overflow: hidden;
+}
+
+.collapsable-collapsed {
+  max-height: 0px;
+  transition: all 0.5s ease-out;
+/*   transform: scaleY(0);    
+  transform-origin: top; */
+}
+
+.collapsable-open {
+  max-height: 1000px;
+  transition: all 0.5s ease-in;
+/*   transform: scaleY(1);    
+  transform-origin: top; */
+}
+
+#banner {
+  background-image: url('/public/banner.jpg');
+  background-size: cover;
+  color: white;
+  text-shadow: 0 1px black;
+  font-size: 3.618em;
+  letter-spacing: 0.25em;
+}
+
+#mid {
+  background-image: url('/public/mid.jpg');
+  background-size: cover;
+  color: yellow;
+  text-shadow: 0 1px black;
+}
+
+#banner, #mid {
+  height: 300px;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+}
+
+#social-networks {
+  font-size: 2em;
+}
+
+#social-networks a {
+  color: #333333;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#social-networks a:hover {
+  color: #0044ff;
+}
+
+#author, #social-networks {
+  flex: 1;
+  position: relative;
+}
+
+@media only screen and (max-width: 900px) {
+  .cards-container {
+    max-width: 420px;
+  }
+
+  #banner {
+    font-size: 2.5em;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .cards-container {
+    max-width: 200px;
+  }
+
+  .max-width-small {
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+
+  .bo-img-wrapper {
+    width: 100%;
+  } 
+}

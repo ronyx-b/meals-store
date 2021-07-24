@@ -1,0 +1,23 @@
+<div class="container-md border border-secondary rounded p-3 my-5">
+  <div class="text-center"><h2>Your Dashboard</h2></div>
+  <p><b><u>Account Information</u></b></p>
+  <ul>
+    <li><strong>First Name:</strong> {{user.fname}}</li>
+    <li><strong>Last Name:</strong> {{user.lname}}</li>
+    <li><strong>Email:</strong> {{user.email}}</li>
+    <li><strong>Address:</strong> {{user.address}}</li>
+    <li><strong>City:</strong> {{user.city}}</li>
+    <li><strong>Postal Code:</strong> {{user.postal}}</li>
+  </ul>
+  {{#if clerk}}
+  <div style="width:fit-content" class="mx-auto">
+    <a class="btn btn-primary" href="/backoffice">Edit meal packages</a>
+  </div>
+  {{/if}}
+  {{#if customer}}
+  <div style="width:fit-content" class="mx-auto">
+    <a class="btn btn-primary" href="/packages">Shop Packages</a>
+    <a class="btn btn-primary" href="/order">View your Cart</a>
+  </div>
+  {{/if}}
+</div>

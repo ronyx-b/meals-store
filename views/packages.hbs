@@ -1,0 +1,14 @@
+<div style="text-align: center; margin-top:20px">
+  <h1>Our meal packages</h1>Pick a package, choose your meals, achieve your goal - <b><i>it's that easy!</i></b>
+</div>
+<div class="cards-container">
+  {{#each data}}
+  <div class="square">
+    <a data-toggle="modal" href="#modal_{{code}}"><img src="/public/meals/{{image_url}}" alt="{{name}}" class="meal-img"></a>
+    <h2>{{name}}</h2>{{description}}<br />{{#if price}}from {{currency price}}/meal{{else}}<i>Sold Out</i>{{/if}}
+  </div>
+  <!-- Begin Modal -->
+  {{> package-modal package=this customer=../customer}}
+  <!-- End Modal -->
+  {{/each}}
+</div>

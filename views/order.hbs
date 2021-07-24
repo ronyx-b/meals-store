@@ -1,0 +1,208 @@
+<div class="container-md border border-secondary rounded p-3 my-5">
+  <div class="text-center"><h2>Shopping Cart</h2></div>
+  <div class="text-center mb-3">Review your order before checking out</div>
+  {{#each data.meals}}
+  <div class="row border-bottom m-2 p-2">
+    <div class="" style="width: 70px;">
+      <a data-toggle="modal" href="#modal_{{code}}"><img src="/public/meals/{{image_url}}" alt="{{name}}" class="meal-img-cart"></a>
+    </div>
+    <div class="col">
+      <strong>{{name}}</strong><br />{{qty}} meals at {{currency price}} each
+      <form name="remove-{{code}}" id="shop-{{code}}" action="/add-to-cart" method="post" enctype="multipart/form-data" class="form-inline mx-auto">
+        <input type="hidden" name="code" id="{{code}}-code-rmv" value="{{code}}">
+        <input type="hidden" name="name" id="{{code}}-name-rmv" value="{{name}}">
+        <input type="hidden" name="price" id="{{code}}-price-rmv" value="{{price}}">
+        <input type="hidden" name="qty" id="{{code}}-qty-rmv" value="-{{qty}}">
+        <button type="submit" class="btn btn-primary btn-sm">Remove</button>
+      </form>
+    </div>
+    <div class="" style="width: 70px; text-align: right;">{{currency (multiply price qty)}}</div>
+  </div>
+  <!-- Begin Modal -->
+  {{> package-modal package=this customer=../customer}}
+  <!-- End Modal -->
+  {{else}}
+  <div class="text-center py-5">Your shopping cart is empty</div>
+  {{/each}}
+  
+  {{#if data.meals}}
+  <div class="text-right mx-2 px-2">Cart Subotal: {{currency user.cart.subtotal}}</div>
+  <div class="text-right mx-2 px-2">Taxes: {{currency user.cart.taxes}}</div>
+  <div class="text-right mx-2 px-2">Shipping: {{currency user.cart.shipping}}</div>
+  <div class="text-right mx-2 px-2 font-weight-bold">Order Total: {{currency user.cart.total}}</div>
+  <div class="mx-auto" style="width: fit-content;">
+    <a class="btn btn-primary" href="/packages">Keep Shopping</a>
+    <a class="btn btn-primary" href="#checkout">Proceed to Checkout</a>
+  </div>
+  {{else}}
+  <div class="mx-auto" style="width: fit-content;">
+    <a class="btn btn-primary" href="/packages">Start Shopping</a>
+  </div>
+  {{/if}}
+</div>
+{{#if data.meals}}
+<div class="container-md border border-secondary rounded p-3 my-5" id="checkout">
+  <div class="text-center"><h2>Checkout</h2></div>
+  <div class="text-center mb-3">confirm shipping address and notes on delivery</div>
+  <div>
+    <p><b>Current address:</b>
+      <br />{{user.fname}} {{user.lname}}
+      <br />{{user.address}}
+      <br />{{user.city}}, {{user.postal}}
+    </p>
+  </div>
+  <form name="checkout" id="form-checkout" action="/checkout" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="current_fname" value="{{user.fname}}">
+    <input type="hidden" name="current_lname" value="{{user.lname}}">
+    <input type="hidden" name="current_address" value="{{user.address}}">
+    <input type="hidden" name="current_city" value="{{user.city}}">
+    <input type="hidden" name="current_postal" value="{{user.postal}}">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label" for="address_current">Use current address</label>      
+      <input 
+        class="form-check-input mx-2" 
+        type="radio" 
+        name="address_choice" 
+        id="address_current" 
+        value="address_current" 
+        {{#unless data.formData}}checked{{/unless}} 
+        onfocus="[...document.querySelectorAll('.toggle-disable')].forEach(element => {element.value=''; element.setAttribute('disabled', 'disabled')}); 
+          document.querySelector('#new-address-wrapper').classList.remove('collapsable-open');
+          document.querySelector('#new-address-wrapper').classList.add('collapsable-collapsed');"
+      />
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label" for="address_new">Use different address</label>
+      <input 
+        class="form-check-input mx-2" 
+        type="radio" 
+        name="address_choice" 
+        id="address_new" 
+        value="address_new"
+        {{#if data.formData}}checked{{/if}} 
+        onfocus="[...document.querySelectorAll('.toggle-disable')].forEach(element => {element.removeAttribute('disabled')});
+          document.querySelector('#new-address-wrapper').classList.remove('collapsable-collapsed');
+          document.querySelector('#new-address-wrapper').classList.add('collapsable-open');"
+      />
+    </div>
+    <!-- start form for new address -->
+    <div class="collapsable{{#unless data.formData}} collapsable-collapsed{{/unless}}" id="new-address-wrapper">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="fname">First Name: </label>
+          <input
+            type="text"
+            name="fname"
+            id="fname"
+            class="form-control{{#if data.errors.fname}} border-danger{{/if}} toggle-disable"
+            tabindex="1"
+            value="{{data.formData.fname}}"
+            autocomplete="first-name"
+            {{#unless data.formData}}disabled{{/unless}}
+          />
+          {{#if data.errors.fname}}
+          <div class="mt-3" style="color:red"> 
+            <strong>Warning:</strong> {{data.errors.fname}}
+          </div>
+          {{/if}}
+        </div>
+        <div class="form-group col-md-6">
+          <label for="name">Last Name: </label>
+          <input
+            type="text"
+            name="lname"
+            id="lname"
+            class="form-control{{#if data.errors.lname}} border-danger{{/if}} toggle-disable"
+            tabindex="2"
+            value="{{data.formData.lname}}"
+            autocomplete="last-name"
+            {{#unless data.formData}}disabled{{/unless}}
+          />
+          {{#if data.errors.lname}}
+          <div class="mt-3" style="color:red"> 
+              <strong>Warning:</strong> {{data.errors.lname}}
+          </div>
+          {{/if}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">Address: </label>
+        <input
+          type="text"
+          name="address"
+          id="address"
+          class="form-control{{#if data.errors.address}} border-danger{{/if}} toggle-disable"
+          tabindex="3"
+          placeholder="Street name, number, Apt/Suite,..."
+          value="{{data.formData.address}}"
+          autocomplete="address-line1"
+          {{#unless data.formData}}disabled{{/unless}}
+        />
+        {{#if data.errors.address}}
+        <div class="mt-3" style="color:red"> 
+            <strong>Warning:</strong> {{data.errors.address}}
+        </div>
+        {{/if}}
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="city">City: </label>
+          <input
+            type="text"
+            name="city"
+            id="city"
+            class="form-control{{#if data.errors.city}} border-danger{{/if}} toggle-disable"
+            tabindex="4"
+            value="{{data.formData.city}}"
+            list="cities"
+            {{#unless data.formData}}disabled{{/unless}}
+          />
+          <datalist id="cities">
+            <option value="Toronto"></option>
+            <option value="Ottawa"></option>
+            <option value="Montreal"></option>
+            <option value="Quebec"></option>
+            <option value="Vancouver"></option>
+            <option value="Calgary"></option>
+            <option value="Edmonton"></option>
+            <option value="Mississauga"></option>
+            <option value="Winnipeg"></option>
+            <option value="Brampton"></option>
+            <option value="Halifax"></option>
+            <option value="Saskatoon"></option>
+            <option value="Kitchener"></option>
+          </datalist>
+          {{#if data.errors.city}}
+          <div class="mt-3" style="color:red"> 
+              <strong>Warning:</strong> {{data.errors.city}}
+          </div>
+          {{/if}}
+        </div>
+        <div class="form-group col-md-6">
+          <label for="postal">Postal Code: </label>
+          <input
+            type="text"
+            name="postal"
+            id="postal"
+            class="form-control{{#if data.errors.postal}} border-danger{{/if}} toggle-disable"
+            tabindex="5"
+            value="{{data.formData.postal}}"
+            placeholder="A1A 2B2"
+            autocomplete="postal-code"
+            {{#unless data.formData}}disabled{{/unless}}
+          />
+          {{#if data.errors.postal}}
+          <div class="mt-3" style="color:red"> 
+              <strong>Warning:</strong> {{data.errors.postal}}
+          </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    <!-- end form for new address -->
+    <div style="width:fit-content" class="mx-auto my-2">
+      <input type="submit" class="btn btn-primary" style="width: 200px;" value="Checkout" tabindex="10">
+    </div>
+  </form>
+</div>
+{{/if}}
