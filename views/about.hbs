@@ -13,5 +13,14 @@
     <li>Nodemailer module to configure and send emails to users upon registration and whenever an order is completed.</li>
     <li>Bootstrap 4 implementation.</li>
   </ul>
-  <p>If you want to try a customer account, you just have to <a href="/register">register</a>. If you wish to test the store clerk functionalities for yourself, <a href="javascript:void(0)">click here</a>. If you want to disable this option and continue to test client functionalities, <a href="javascript:void(0)">click here</a></p>
+  {{#if user}}
+    {{#if customer}}
+    <p>You are currently logged with a customer account. If you wish to test the store clerk functionalities for yourself, <a href="javascript:void(0)">click here</a>.</p>
+    {{/if}}
+    {{#if clerk}}
+    <p>You are currently logged with a clerk account. If you want to disable this option and continue to test client functionalities, <a href="javascript:void(0)">click here</a></p>
+    {{/if}}
+  {{else}}
+  <p>If you want to try a customer account, you just have to <a href="/register">register</a> to create that account. You can latter upgrade that account to a store clerk account to test those functionalities.</p>
+  {{/if}}
 </div>

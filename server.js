@@ -218,6 +218,9 @@ app.get("/login", function(req,res){
 app.get("/about", function(req,res){
   res.render('about', {
     page: {title: 'About', about: true},
+    user: ((req.session.user)? req.session.user : false),
+    customer: (typeof(req.session.user) !== 'undefined' && req.session.user.role == "customer"),
+    clerk: (typeof(req.session.user) !== 'undefined' && req.session.user.role == "clerk"),
     layout: 'main'
   });
 });
