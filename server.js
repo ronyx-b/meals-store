@@ -214,6 +214,14 @@ app.get("/login", function(req,res){
   }
 });
 
+// setup route for the about page
+app.get("/about", function(req,res){
+  res.render('about', {
+    page: {title: 'About', about: true},
+    layout: 'main'
+  });
+});
+
 // setup route for the dashboard page
 app.get("/dashboard", ensureLogin, function(req,res){
   res.render('dashboard', {
